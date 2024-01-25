@@ -1,5 +1,9 @@
 import { Router, Request, Response } from "express";
 
+interface RequestWithBody extends Request {
+  body: { [key: string]: string | undefined };
+}
+
 const router = Router();
 
 router.get("/", (req: Request, res: Response): void => {
@@ -22,10 +26,13 @@ router.get("/login", (req: Request, res: Response): void => {
   `);
 });
 
-router.post("/login", (req: Request, res: Response): void => {
+router.post("/login", (req: RequestWithBody, res: Response): void => {
   const { email, password } = req.body; // body is available thanks to body-parser package
 
-  res.send(email + password);
+  if (!email) throw new Error("You must define 'email'");
+  if (!password) throw new Error("You must define 'password'");
+
+  res.send(email.toUpperCase());
 });
 
 export { router };
