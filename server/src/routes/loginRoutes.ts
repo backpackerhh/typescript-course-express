@@ -1,7 +1,17 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 
 interface RequestWithBody extends Request {
   body: { [key: string]: string | undefined };
+}
+
+function requireAuth(req: Request, res: Response, next: NextFunction): void {
+  if (req.session?.loggedIn) {
+    next();
+    return;
+  }
+
+  res.status(403);
+  res.send("You must be logged in to access this page");
 }
 
 const DEFAULT_CREDENTIALS = {
@@ -63,6 +73,10 @@ router.post("/login", (req: RequestWithBody, res: Response): void => {
 router.get("/logout", (req: Request, res: Response): void => {
   req.session = undefined;
   res.redirect("/");
+});
+
+router.get("/protected", requireAuth, (req: Request, res: Response): void => {
+  res.send("Welcome to this protected route, logged in user");
 });
 
 export { router };
