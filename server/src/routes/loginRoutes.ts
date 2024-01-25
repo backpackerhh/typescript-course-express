@@ -12,7 +12,21 @@ const DEFAULT_CREDENTIALS = {
 const router = Router();
 
 router.get("/", (req: Request, res: Response): void => {
-  res.send("Hi there from router!");
+  if (req.session?.loggedIn) {
+    res.send(`
+      <div>
+        <p>You are logged in</p>
+        <a href="/logout">Logout</a>
+      </div>
+    `);
+  } else {
+    res.send(`
+      <div>
+        <p>You are not logged in</p>
+        <a href="/login">Login</a>
+      </div>
+    `);
+  }
 });
 
 router.get("/login", (req: Request, res: Response): void => {
