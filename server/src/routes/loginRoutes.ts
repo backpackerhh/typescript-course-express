@@ -4,6 +4,11 @@ interface RequestWithBody extends Request {
   body: { [key: string]: string | undefined };
 }
 
+const DEFAULT_CREDENTIALS = {
+  email: "demo@demo.es",
+  password: "password",
+};
+
 const router = Router();
 
 router.get("/", (req: Request, res: Response): void => {
@@ -32,7 +37,13 @@ router.post("/login", (req: RequestWithBody, res: Response): void => {
   if (!email) throw new Error("You must define 'email'");
   if (!password) throw new Error("You must define 'password'");
 
-  res.send(email.toUpperCase());
+  if (email === DEFAULT_CREDENTIALS.email && password === DEFAULT_CREDENTIALS.password) {
+    req.session = { loggedIn: true };
+
+    res.redirect("/");
+  } else {
+    res.send("Invalid credentials");
+  }
 });
 
 export { router };
