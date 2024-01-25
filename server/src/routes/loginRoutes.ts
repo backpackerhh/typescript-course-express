@@ -60,4 +60,9 @@ router.post("/login", (req: RequestWithBody, res: Response): void => {
   }
 });
 
+router.get("/logout", (req: Request, res: Response): void => {
+  req.session = undefined;
+  res.redirect("/");
+});
+
 export { router };
