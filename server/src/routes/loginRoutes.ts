@@ -30,11 +30,6 @@ router.get("/", (req: Request, res: Response): void => {
   }
 });
 
-router.get("/logout", (req: Request, res: Response): void => {
-  req.session = undefined;
-  res.redirect("/");
-});
-
 router.get("/protected", requireAuth, (req: Request, res: Response): void => {
   res.send("Welcome to this protected route, logged in user");
 });

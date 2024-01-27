@@ -4,6 +4,7 @@ import cookieSession from "cookie-session";
 import { router } from "./routes/loginRoutes";
 import { AppRouter } from "./AppRouter";
 import "./controllers/LoginController";
+import "./controllers/LogoutController";
 
 const app = express();
 
