@@ -39,22 +39,6 @@ router.get("/", (req: Request, res: Response): void => {
   }
 });
 
-router.get("/login", (req: Request, res: Response): void => {
-  res.send(`
-    <form method="post">
-      <div>
-        <label>Email</label>
-        <input name="email" type="email" />
-      </div>
-      <div>
-        <label>Password</label>
-        <input name="password" type="password" />
-      </div>
-      <button>Submit</button>
-    </form>
-  `);
-});
-
 router.post("/login", (req: RequestWithBody, res: Response): void => {
   const { email, password } = req.body; // body is available thanks to body-parser package
 
