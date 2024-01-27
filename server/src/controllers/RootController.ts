@@ -1,5 +1,15 @@
-import { Request, Response } from "express";
-import { controller, get, enumerable } from "./decorators";
+import { NextFunction, Request, Response } from "express";
+import { controller, get, enumerable, use } from "./decorators";
+
+function requireAuth(req: Request, res: Response, next: NextFunction): void {
+  if (req.session?.loggedIn) {
+    next();
+    return;
+  }
+
+  res.status(403);
+  res.send("You must be logged in to access this page");
+}
 
 @controller("/")
 class RootController {
@@ -21,5 +31,12 @@ class RootController {
         </div>
       `);
     }
+  }
+
+  @get("/protected")
+  @enumerable(true)
+  @use(requireAuth)
+  getProtected(req: Request, res: Response): void {
+    res.send("Welcome to this protected route, logged in user");
   }
 }
