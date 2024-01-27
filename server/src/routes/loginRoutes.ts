@@ -1,9 +1,5 @@
 import { Router, Request, Response, NextFunction } from "express";
 
-interface RequestWithBody extends Request {
-  body: { [key: string]: string | undefined };
-}
-
 function requireAuth(req: Request, res: Response, next: NextFunction): void {
   if (req.session?.loggedIn) {
     next();
@@ -13,11 +9,6 @@ function requireAuth(req: Request, res: Response, next: NextFunction): void {
   res.status(403);
   res.send("You must be logged in to access this page");
 }
-
-const DEFAULT_CREDENTIALS = {
-  email: "demo@demo.es",
-  password: "password",
-};
 
 const router = Router();
 
@@ -36,21 +27,6 @@ router.get("/", (req: Request, res: Response): void => {
         <a href="/login">Login</a>
       </div>
     `);
-  }
-});
-
-router.post("/login", (req: RequestWithBody, res: Response): void => {
-  const { email, password } = req.body; // body is available thanks to body-parser package
-
-  if (!email) throw new Error("You must define 'email'");
-  if (!password) throw new Error("You must define 'password'");
-
-  if (email === DEFAULT_CREDENTIALS.email && password === DEFAULT_CREDENTIALS.password) {
-    req.session = { loggedIn: true };
-
-    res.redirect("/");
-  } else {
-    res.send("Invalid credentials");
   }
 });
 
