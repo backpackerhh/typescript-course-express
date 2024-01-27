@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
 import { controller } from "./decorators/controller";
 import { get } from "./decorators/routes";
+import { enumerable } from "./decorators/enumerable";
 
 @controller("/")
 class LoginController {
   @get("/login")
+  @enumerable(true)
   getLogin(req: Request, res: Response): void {
     res.send(`
       <form method="post">
