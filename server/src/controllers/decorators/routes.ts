@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import { Methods } from "./Methods";
 
 function defineRouteDecorator(method: string) {
   return function (path: string) {
@@ -9,8 +10,8 @@ function defineRouteDecorator(method: string) {
   };
 }
 
-export const get = defineRouteDecorator("get");
-export const post = defineRouteDecorator("post");
-export const put = defineRouteDecorator("put");
-export const destroy = defineRouteDecorator("delete");
-export const patch = defineRouteDecorator("patch");
+export const get = defineRouteDecorator(Methods.get);
+export const post = defineRouteDecorator(Methods.post);
+export const put = defineRouteDecorator(Methods.put);
+export const destroy = defineRouteDecorator(Methods.destroy);
+export const patch = defineRouteDecorator(Methods.patch);
